@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favicon Guru SMB Kaltim</title>
+    <link rel="icon" type="image/png" href="ico/x-icon/r_dhamma.png">
+    <link rel="stylesheet" href="css/sidebar_Note.css">
+    <link rel="stylesheet" href="css/jam_calender.css">
+    <link rel="stylesheet" href="css/wallpaper.css">
+    <link rel="stylesheet" href="css/search.css">
+    <link rel="stylesheet" href="css/music_nav_left.css">
+    <link rel="stylesheet" href="css/calculator.css">
+    <link rel="stylesheet" href="css/biodata.css#">
+    <link rel="stylesheet" href="css/note.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+    </style>
+    <meta name="description" content="Personal Dashboard">
+    <link rel="apple-touch-icon" sizes="180x180" href="ico/apple-touch-icon.png">
+    <link rel="manifest noopener" href="manifest.json"> <!-- kalau mau PWA -->
+</head>
+<body>
+ 
+<!--Search google-->
+
+<div class="google-search-container">
+    <div class="google-search-box">
+        <div class="google-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+            </svg>
+        </div>
+        
+        <input type="text" id="mainSearchInput" placeholder="Telusuri di Google atau ketik URL" autocomplete="off">
+        
+        <div class="google-mic">
+            <i class="fas fa-microphone"></i>
+        </div>
+    </div>
+</div>
+
+
+<!--Wallpaper tombol-->
+<div class="wallpaper-controls">
+    <div class="control-capsule">
+        <button onclick="nextWallpaper()" title="Ganti Sekarang">
+            <svg viewBox="0 0 24 24" width="18" height="18">
+                <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" fill="currentColor"/>
+            </svg>
+        </button>
+
+        <div class="v-divider"></div>
+
+        <input type="checkbox" id="autoWallpaperCheck" onchange="toggleAutoWallpaper()" title="Auto Ganti (10 Menit)">
+    </div>
+</div>
+
+<!--Clock calender-->    
+<div class="top-bar">
+   <div class="clock-container" onclick="toggleCalendar()">
+    <div id="digital-clock">00:00:00</div>
+    
+    <div id="date-display" class="date-text">Memuat tanggal...</div>
+    
+    <div class="analog-wrapper">
+        <span class="num num-12">12</span>
+        <span class="num num-3">3</span>
+        <span class="num num-6">6</span>
+        <span class="num num-9">9</span>
+        <div class="hour-hand"></div>
+        <div class="min-hand"></div>
+        <div class="sec-hand"></div>
+        <div class="center-dot"></div>
+    </div>
+</div>
+
+    <div id="calendar-panel" class="calendar-card">
+        
+        
+       <div class="cal-header">
+    <button onclick="changeMonth(event, -1)">❮</button>
+    <span id="cal-month-year"></span>
+    <button onclick="changeMonth(event, 1)">❯</button>
+    </div>
+
+
+
+        <div class="cal-weekdays">
+            <div class="sun">Min</div>
+            <div>Sen</div>
+            <div>Sel</div>
+            <div>Rab</div>
+            <div>Kam</div>
+            <div>Jum</div>
+            <div>Sab</div>
+        </div>
+        <div id="cal-days" class="cal-days"></div>
+    </div>
+</div>
+
+
+<!--Left Sidebar Biodata-->
+<div class="sidebar-left">
+ 
+ <!---
+    <div class="nav-item" style="position: relative;">
+        <span class="tooltip-side">Biodata</span> 
+        <div class="nav-icon" onclick="toggleBiodata()">
+            <img src="ico/biodata/foto1.png" alt="Bio" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+        </div>
+
+     
+        <div id="biodata-card" class="calc-card" style="display: none;">
+            <div class="calc-header">
+                <span>Private Access</span>
+                <button onclick="toggleBiodata()" class="close-btn">✖</button>
+                
+            </div>
+        
+            <div style="text-align: center; padding: 10px;">
+                <div id="login-area">
+                    <div style="font-size: 30px; margin-bottom: 10px;">🔒</div>
+                    <p style="font-size: 12px; margin-bottom: 15px;">Masukkan Password</p>
+                    
+                    <div style="position: relative; width: 85%; margin: 0 auto;">
+                        <input type="password" id="drive-pass" placeholder="Password..." 
+                            style="width: 100%; padding: 10px; border-radius: 8px; border: none; background: rgba(0,0,0,0.3); color: white; text-align: center;">
+                        <span id="toggle-eye" onclick="togglePassword()" 
+                            style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;">😎</span>
+                    </div>
+
+                    <button onclick="checkAccess()" 
+                        style="margin-top: 15px; width: 50%; padding: 10px; border-radius: 8px; border: none; background: #00c6ff; color: white; cursor: pointer; font-weight: bold;">
+                        Unlock
+                    </button>
+                    <p id="error-msg" style="color: #ff4b2b; font-size: 11px; margin-top: 10px; display: none;">Password Salah!</p>
+                </div>
+
+                <div id="drive-area" style="display: none; animation: fadeIn 0.5s ease;">
+                    <div style="font-size: 30px; margin-bottom: 10px;">📂</div>
+                    <h3 style="margin: 0; color: #fff;">Access Granted</h3>
+                    <p style="font-size: 11px; color: #00c6ff; margin-bottom: 15px;">Data Drive dibuka di tab baru.</p>
+                    
+                    <button onclick="goToDrive()" 
+                        style="display: block; width: 85%; margin: 0 auto; padding: 12px; background: #27ae60; border: none; color: white; border-radius: 10px; font-weight: bold; cursor: pointer;">
+                        Buka Ulang Biodata
+                    </button>
+                    
+                    <button onclick="lockAgain()" style="background: none; border: none; color: #ff4b2b; font-size: 10px; margin-top: 20px; cursor: pointer; text-decoration: underline;">
+                        Kunci Kembali
+                    </button>
+                </div>
+            </div>
+        </div> 
+    </div>
+-->
+    <div class="nav-item">
+        <span class="tooltip-side">Home</span> 
+        <div class="nav-icon" onclick="switchScene('home')">☸</div>
+    </div>
+    
+<!--Left Sidebar-->
+
+<!--Note II-->
+
+<div class="nav-item" style="position: relative;">
+    <span class="tooltip-side">Pelaporan Dana Masuk & Absen</span>
+    <div class="nav-icon" onclick="openNoteInNewTab()">
+        📝
+    </div>
+</div>
+
+<script>
+function openNoteInNewTab() {
+    // GANTI DENGAN LINK "PUBLISH TO WEB" kamu
+    const htmlLink = "https://forms.gle/w4MvW9qywGoDeadB8";
+    window.open(htmlLink, '_blank');
+}
+</script>
+<!--note II-->
+
+<!--Memo-->
+
+<div class="nav-item" style="position: relative;">
+    <span class="tooltip-side">Memo</span>
+    <div class="nav-icon" onclick="openNoteInNewTabII()">
+        ⚠️
+    </div>
+</div>
+<script>
+function openNoteInNewTabII() {
+    // GANTI DENGAN LINK "PUBLISH TO WEB" kamu
+    const htmlLink = "https://docs.google.com/document/d/1RrqVwj1MVcTWUGgAHx_HaGd2DioGZIcxyEwtMQoyXeg/edit?usp=sharing";
+    
+    window.open(htmlLink, '_blank');
+}
+</script>
+<!--Memo II-->
+
+<div class="nav-item" style="position: relative;">
+    <span class="tooltip-side">Udate Mutasi Rekening</span>
+    <div class="nav-icon" onclick="openNoteInNewTabIII()">
+        ✅
+    </div>
+</div>
+<script>
+function openNoteInNewTabIII() {
+    // GANTI DENGAN LINK "PUBLISH TO WEB" kamu
+    const htmlLink = "https://docs.google.com/spreadsheets/d/1c10-phWJKyoPPofz8-w40WkQTp0umkITtVwAhRfYssc/edit?usp=sharing";
+    
+    window.open(htmlLink, '_blank');
+}
+</script>
+
+
+
+
+
+<!--Wa-->
+<div class="nav-item" style="position: relative;">
+    <span class="tooltip-side">WhatsApp</span>
+    <div class="nav-icon" onclick="window.open('https://web.whatsapp.com/')">
+        <img src="ico/ai/wa2.png" alt="WhatsApp" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+
+    </div>
+</div>
+
+<!--Wa-->
+
+
+ <!--Music-->   
+<div class="nav-item" style="position: relative;"> 
+    <span class="tooltip-side">Music</span> 
+    <div class="nav-icon" onclick="toggleMusic()">🎵</div>
+
+    <div id="music-card" class="music-card">        
+        <div class="music-header">
+            <span></span>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <button onclick="togglePlaylist()" class="list-toggle-btn" id="list-arrow" title="Daftar Lagu">
+                    <span class="arrow-icon">➤</span>
+                </button>
+                <button onclick="toggleMusic()" class="close-music-btn" title="Tutup" 
+                    style="background: none; border: none; color: white; cursor: pointer; font-size: 20px; font-weight: bold; line-height: 1; padding: 5px; opacity: 0.7; transition: 0.3s;">
+                    ❎
+                </button>
+            </div>
+        </div>
+    
+        <div class="music-layout">
+            <div class="music-main-player">
+                <div class="album-art" id="album-bg">
+                    <div id="wave-container" class="wave-container">
+                        <div class="stroke"></div>
+                        <div class="stroke"></div>
+                        <div class="stroke"></div>
+                    </div>
+                    <span id="album-icon" style="font-size: 40px;">🎵</span>
+                </div>
+                
+                <div class="music-info">
+                    <h4 id="song-title">Pilih Lagu</h4>
+                    <p id="artist-name">Artis</p>
+                </div>
+                
+                <div class="music-controls">
+                    <button onclick="prevSong()">⏮</button>
+                    <button id="play-btn" class="play-btn" onclick="playMusic()">▶</button>
+                    <button onclick="nextSong()">⏭</button>
+                </div>
+
+                <div class="progress-container" onclick="seekAudio(event)">
+                    <div class="progress-bar">
+                        <div id="progress" class="progress"></div>
+                    </div>
+                    <div class="time-info">
+                        <span id="current-time">0:00</span>
+                        <span id="duration-time">0:00</span>
+                    </div>
+                </div>
+
+                <div class="volume-container">
+                    <span id="vol-icon" class="volume-icon" onclick="toggleMute()">🔊</span>
+                    <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.01" value="1" oninput="changeVolume(this.value)">
+                </div>
+            </div>
+
+            <div id="side-playlist" class="song-list-side">
+                <div class="search-wrapper">
+                    <input type="text" id="songSearch" placeholder="Cari judul lagu..." autocomplete="off">
+                    <i class="fas fa-search search-icon"></i>
+                </div>            
+                <div class="song-list-container">
+                    <ul id="playlist"></ul>
+                </div>
+            </div>
+        </div> 
+    </div> 
+</div>
+</div>
+<!--Agaenda dan catatan-->
+<div class="note-launcher" onclick="toggleNote(event)">📝</div>
+    <div class="note-box" id="noteBox">
+        <div class="note-header">
+            <span>AGENDA & CATATAN</span>
+            
+            <span style="cursor:pointer" onclick="toggleNote(event)">✕</span>
+        </div>
+        <textarea id="noteInput" placeholder="Tulis sesuatu..."></textarea>
+        <div class="note-footer">
+            <button onclick="clearNote()" style="background:#ff5252; color:white; border:none; border-radius:3px; cursor:pointer;">Hapus</button>
+            <span id="status">Tersimpan</span>
+ </div>
+    </div>
+</div>
+
+<!--Music-->
+
+<!--calculator-->
+<!--
+<div class="nav-item" style="position: relative;">
+    <span class="tooltip-side">Calculator</span>
+    <div class="nav-icon" onclick="toggleCalculator()">🧮</div>
+
+    <div id="calc-card" class="calc-card">
+        <div class="calc-header">
+            <span>Calculator</span>
+            <button onclick="toggleCalculator()" class="close-btn">×</button>
+        </div>
+        <input type="text" id="calc-display" readonly placeholder="0">
+        <div class="calc-buttons">
+            <button onclick="clearCalc()" class="btn-alt">C</button>
+            <button onclick="inputCalc('/')" class="btn-op">÷</button>
+            <button onclick="inputCalc('*')" class="btn-op">×</button>
+            <button onclick="backspaceCalc()" class="btn-alt">⌫</button>
+            
+            <button onclick="inputCalc('7')">7</button>
+            <button onclick="inputCalc('8')">8</button>
+            <button onclick="inputCalc('9')">9</button>
+            <button onclick="inputCalc('-')" class="btn-op">−</button>
+            
+            <button onclick="inputCalc('4')">4</button>
+            <button onclick="inputCalc('5')">5</button>
+            <button onclick="inputCalc('6')">6</button>
+            <button onclick="inputCalc('+')" class="btn-op">+</button>
+            
+            <button onclick="inputCalc('1')">1</button>
+            <button onclick="inputCalc('2')">2</button>
+            <button onclick="inputCalc('3')">3</button>
+            <button onclick="calculateResult()" class="btn-equal">=</button>
+            
+            <button onclick="inputCalc('0')" style="grid-column: span 2;">0</button>
+            <button onclick="inputCalc('.')">.</button>
+        </div>
+    </div>
+</div>
+    </div>
+
+-->
+
+<!--home_Dock_bottom_Semua_Agama-->
+<div class="dock scene" id="dock-home">
+    
+    <div class="dock-item">
+        <span class="tooltip">Presentasi</span> 
+        <div class="dock-icon" onclick="toggleMenu('home')">🏠</div>
+    </div>
+        <!--
+    <div class="dock-item">
+        <span class="tooltip">Bimas Buddha</span>
+        <div class="dock-icon" onclick="toggleMenu('buddha')">☸</div>
+    </div>
+
+    
+    <div class="dock-item">
+        <span class="tooltip">Application</span> 
+        <div class="dock-icon" onclick="toggleMenu('application')">🌐</div>
+    </div>
+-->
+
+    <div class="dock-item">
+        <span class="tooltip">Media Sosial</span> 
+        <div class="dock-icon" onclick="toggleMenu('media_sosial-menu')">🍨</div>
+    </div>
+
+    <div class="dock-item">
+        <span class="tooltip">Ai Assistant</span>
+        <div class="dock-icon" onclick="toggleMenu('ai_assistant')">🤖</div>
+    </div>
+
+    <div class="dock-item">
+        <span class="tooltip">My Game</span>
+        <div class="dock-icon" onclick="toggleMenu('my_game')">🎮</div>
+    </div>
+
+ 
+    <div class="dock-item">
+        <span class="tooltip">Drive</span>
+        <div class="dock-icon" onclick="toggleMenu('drive')">💾</div>
+    </div>
+
+     <div class="dock-item">
+        <span class="tooltip">News</span>
+        <div class="dock-icon" onclick="toggleMenu('news')">📰</div>
+    </div>
+
+    <div class="dock-item">
+        <span class="tooltip">Office</span>
+        <div class="dock-icon" onclick="toggleMenu('office')">📚</div>
+    </div>
+
+    <div class="dock-item">
+        <span class="tooltip">Buddha</span>
+        <div class="dock-icon" onclick="toggleMenu('buddha_1')">☸️</div>
+    </div>
+
+    <div class="dock-item">
+        <span class="tooltip">Calendar</span>
+        <div class="dock-icon" onclick="toggleMenu('calender')">📅</div>
+    </div>
+</div>
+
+<!--Presentasi-->
+<div id="home" class="menu-container" style="display: none;">
+    <a href="https://www.canva.com/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/ai/canva-icon.png" alt="My Game">
+        </div>
+        <span class="app-name">Presentasi</span>
+    </a>
+</div>
+<!--Bimas Buddha-->
+<!--
+-->
+<!--aplication-->
+
+<!--media sosial-->
+
+<div id="media_sosial-menu" class="menu-container" style="display: none;">
+    <a href="https://web.facebook.com/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: white;">
+            <img src="ico/media_sosial/facebook.png" alt="facebook">
+        </div>
+        <span class="app-name">Facebook</span>
+    </a>
+    
+    <a href="https://www.instagram.com/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: #0078d4;">
+            <img src="ico/media_sosial/IG.jpg" alt="Instragram">
+        </div>
+        <span class="app-name">Instagram</span>
+    </a>
+
+    <a href="https://x.com/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/media_sosial/x.png" alt="X">
+        </div>
+        <span class="app-name">X-Tweeter</span>
+    </a>
+
+    <a href="https://www.tiktok.com/id-ID/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/media_sosial/Tiktok.png" alt="tiktok">
+        </div>
+        <span class="app-name">Tiktok</span>
+    </a>
+
+    <a href="https://www.youtube.com/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/media_sosial/youtube.png" alt="youtube">
+        </div>
+        <span class="app-name">Youtube</span>
+    </a>
+
+    <a href="https://www.chordtela.com/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/media_sosial/Cortela.png" alt="cortelaChord">
+        </div>
+        <span class="app-name">Chordtela</span>
+    </a>
+
+    <a href="https://id.savefrom.net/1-cara-mengunduh-video-youtube-168Wi.html" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/media_sosial/Download.png" alt="Donwload YT">
+        </div>
+        <span class="app-name">Download YT</span>
+    </a>
+
+    <a href="https://shopee.co.id/?gad_source=1&gad_campaignid=1558961180&gbraid=0AAAAADPpU81P_z-KuFqU6JV-mu1N03S3Y&gclid=CjwKCAiA1obMBhAbEiwAsUBbIlitr-SBkUld8fzUvKFYNMFJ-3F45XLfAdiNpMFHAS_dfAEEFHe33RoCjtQQAvD_BwE"
+        target="_blank" class="app-link">
+   
+        <div class="app-icon" style="background: none;">
+            <img src="ico/media_sosial/shoppe.png" alt="shopee">
+        </div>
+        <span class="app-name">shopee</span>
+    </a>
+
+    <a href="https://fmhy.net/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/media_sosial/fmhy.png" alt="fmhy">
+        </div>
+        <span class="app-name">fmhy</span>
+    </a>
+
+    <a href="https://www.jango.com/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/media_sosial/Jango.png" alt="jango">
+        </div>
+        <span class="app-name">Jango.com</span>
+    </a>
+
+    <a href="https://www.tiket.com/id-id" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/media_sosial/tiket.png" alt="tiket.com">
+        </div>
+        <span class="app-name">Tiket.com</span>
+    </a>
+</div>
+
+<!--ai assistant-->
+
+<div id="ai_assistant" class="menu-container" style="display: none;">
+    <a href="https://chatgpt.com/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: rgba(255, 255, 255, 0);">
+            <img src="ico/ai/chat-gpt.png" alt="facebook">
+        </div>
+        <span class="app-name">chat-gpt</span>
+    </a>
+
+    <a href="https://copilot.microsoft.com/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+        <img src="ico/ai/copilot.png" alt="copilot">
+        </div>
+        <span class="app-name">Copilot</span>
+    </a>
+
+     <a href="https://dreamina.capcut.com/ai-tool/home/?utm_medium=social&utm_source=youtube&utm_campaign=MMN_BelakangKelas_ID_INDO_VD2_DYDPN_2026060226&utm_content=ad&gad_source=2&gad_campaignid=23924180818&gclid=CjwKCAjwl97RBhBWEiwAa9rbXZ98XeDLmLOTsB3eXq3rrzKuOPJOUGAzWP4Wm3cBT2PxiJ_oci-L_RoC6DwQAvD_BwE" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+        <img src="ico/ai/dreamina.png" alt="Dreamina">
+        </div>
+        <span class="app-name">Dreamina</span>
+    </a>
+
+    <a href="https://www.meta.ai/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/ai/meta.png" alt="meta">
+        </div>
+        <span class="app-name">Meta</span>
+    </a>
+
+    <a href="https://gemini.google.com/app" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/ai/gemini.png" alt="gemini">
+        </div>
+        <span class="app-name">gemini</span>
+    </a>
+
+    <a href="https://www.perplexity.ai/?login-source=oneTapHome&login-new=false" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/ai/perplexity.PNG" alt="perplexity">
+        </div>
+        <span class="app-name">perplexity</span>
+    </a>
+
+<!--    
+    <a href="https://www.canva.com/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/ai/canva-icon.png" alt="canva">
+        </div>
+        <span class="app-name">canva</span>
+    </a>
+-->
+<!--
+    <a href="https://vscode.dev/?vscode-lang=id-id" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+        <img src="ico/ai/vsstudio.png" alt="vscode">
+        </div>
+        <span class="app-name">VS Code</span>
+    </a>
+-->
+    <a href="https://www.photopea.com/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/ai/Photopea.PNG" alt="photopea">
+        </div>
+        <span class="app-name">photopea</span>
+    </a>
+<!--
+    <a href="https://github.com/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/ai/github-logo.png" alt="github">
+        </div>
+        <span class="app-name">github</span>
+    </a>
+-->
+    <a href="https://www.figma.com/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/ai/figma.png" alt="figma">
+        </div>
+        <span class="app-name">Figma</span>
+    </a>
+<!--
+    <a href="https://www.tawk.to/login" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/ai/tawlk.png" alt="tawk">
+        </div>
+        <span class="app-name">Tawk.to</span>   
+    </a>
+-->
+    <a href="https://suno.com/create?signup_source=splashpage&referrer=%2F&pre_signup_origin=https%3A%2F%2Fsuno.com&redirected_from=signin"target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/ai/suno ai.jpeg" alt="Suno Ai">
+        </div>
+        <span class="app-name">Suno Ai</span>
+    </a>
+
+    <a href="https://www.pngwing.com/id#google_vignette"target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/ai/wings.png" alt="Wings PNG">
+        </div>
+        <span class="app-name">Wings PNG</span>
+    </a>
+
+    <a href="https://unsplash.com/id/wallpapers" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/ai/unplash.png" alt="Unplash">
+        </div>
+        <span class="app-name">Wallpaper Free</span>
+    </a>
+
+    <a href="https://grok.com/c/b31e5357-7277-4960-9ee2-b59b1e69254b?rid=c80a8e12-1692-44a2-b739-a587be6d25e1" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/ai/grok-ai-icon.png" alt="Grok">
+        </div>
+        <span class="app-name">Grok</span>
+    </a>
+
+    <a href="https://javasenseapp.com/id/cek-jodoh-menurut-weton/1990-04-29/2001-08-16/hasil/pesthi/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/ai/weton.webp" alt="Weton">
+        </div>
+        <span class="app-name">Javasense</span>
+
+</div>
+
+<!--my game-->
+<div id="my_game" class="menu-container" style="display: none;">
+    <a href="https://www.gamesgames.com/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/game/ping.png" alt="My Game">
+        </div>
+        <span class="app-name">Play Game Online</span>
+    </a>
+
+    <a href="https://www.poki.com/id" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/game/catur.png" alt="catur">
+        </div>
+        <span class="app-name">Poki Game Online</span>
+    </a>
+
+    <a href="angka_tebak_gambar_01/index.html" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="angka_tebak_gambar_01/Gambar/logo.png" alt="tebak angka">
+            
+        </div>
+        <span class="app-name">Roll the Dice!</span>  
+</a>
+    <a href="Game_Tebak_Agka_2/index.html" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="Game_Tebak_Agka_2/Sound Original/8.png" alt="tebak angka">
+        </div>
+        <span class="app-name">Tebak Angka</span>
+</a>   
+    <a href="memory_match_01/MemoryMath01.html" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="memory_match_01/gambar/1.jpg" alt="miniclip">
+        </div>
+        <span class="app-name">Tebak Gambar 01</span>
+    </a>
+
+    <a href="jawab_kosa_kata/index.html" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="jawab_kosa_kata/1.jpg" alt="miniclip">
+        </div>
+        <span class="app-name">Dice Vocabulary Game</span>
+</div>
+
+
+<!--Drive-->
+
+<div id="drive" class="menu-container" style="display: none;">
+    <a href="https://drive.google.com/drive/home" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/Drive/R.png" alt="g_drive">
+        </div>
+        <span class="app-name">Google Drive</span>
+    </a>
+
+    <a href="https://www.microsoft.com/id-id/microsoft-365/onedrive/online-cloud-storage" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/Drive/oneDrive.png" alt="one drive">
+        </div>
+        <span class="app-name">One Drive</span>
+    </a>
+
+    <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;"> 
+            <img src="ico/Drive/gmail-icon-free-png.png" alt="gmail">
+        </div>
+        <span class="app-name">Gmail</span>
+    </a>
+
+    <a href="https://translate.google.com/?sl=en&tl=id&op=translate" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/Drive/google translate.png" alt="g_translate">
+        </div>
+        <span class="app-name">Goggle translate</span>
+    </a>
+
+     <a href="https://www.google.com/maps/@-0.4930432,117.1617682,3264m/data=!3m1!1e3?authuser=0&entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/Drive/maps.png" alt="google maps">
+        </div>
+        <span class="app-name">Google Maps</span>
+    </a>
+
+</div>
+
+<!--Office-->
+<div id="office" class="menu-container" style="display: none;">
+    <a href="https://docs.google.com/document/u/0/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/office/gdocs.svg" alt="G_Docs">
+        </div>
+        <span class="app-name">Google Docs</span>
+    </a>
+
+    <a href="https://docs.google.com/spreadsheets/u/0/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/office/gsheet.svg" alt="G_Sheet">
+        </div>
+        <span class="app-name">Google Sheet</span>
+    </a>
+
+    <a href="https://docs.google.com/presentation/u/0/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/office/gslides.svg" alt="G_Slide">
+        </div>
+        <span class="app-name">Google Slide</span>
+    </a>
+
+    <a href="https://bitly.com/a/sign_in?rd=%2FBl53753Hu1w%2Fhome" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/office/bitly.png" alt="Bitly">
+        </div>
+        <span class="app-name">Bitly</span>
+    </a>
+
+    <a href="https://word.cloud.microsoft/open/onedrive/?docId=143EA9686221F233%21scb751aea93a84918b8eab81406af599f&driveId=143EA9686221F233" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/office/word.svg" alt="Word cloud">
+        </div>
+        <span class="app-name">Word</span>
+    </a>
+
+    <a href="https://excel.cloud.microsoft/?wdOrigin=MARKETING.FREE.GO-TO-EXCEL" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/office/exel.svg" alt="Excel">
+        </div>
+        <span class="app-name">Excel</span>
+    </a>
+
+    <a href="https://docs.google.com/forms/u/0/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/office/g-form.png" alt="g-form">
+        </div>
+        <span class="app-name">Google Form</span>
+    </a>
+
+
+    <a href="https://powerpoint.cloud.microsoft/?wdOrigin=MARKETING.FREE.GO-TO-POWERPOINT" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/office/pwpoin.png?.v=1.1" alt="Power Point">
+        </div>
+        <span class="app-name">Power Point</span>
+    </a>
+</div>
+
+<!--news-->
+
+<div id="news" class="menu-container" style="display: none;">
+    <a href="https://kemenag.go.id/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/news/kemenag.png" alt="kemenag RI">
+        </div>
+        <span class="app-name">Kemenag RI</span>
+    </a>
+
+    <a href="https://kaltim.kemenag.go.id/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/news/kemenag_kaltim.png" alt="Kemenag Kaltim">
+        </div>
+        <span class="app-name">Kemenag Kaltim</span>
+    </a>
+
+    <a href="https://news.google.com/home?hl=id&gl=ID&ceid=ID:id" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/news/goggle berita.png" alt="google news">
+        </div>
+        <span class="app-name">Google News</span>
+    </a>
+</div>
+
+<!--Pelaporan Vesākha Sānanda 2570 B.E. -->
+
+<!--Medsos Vihara-->
+<div id="medsos_vihara" class="menu-container" style="display: none;">
+    <a href="https://www.youtube.com/@viharasantigraha_berau7299" target="_blank" class="app-link">
+        <div class="app-icon" style="background:none">
+            <img src="ico/logo_vihara/v_santi_graha YT.png" alt="Vihara Santi Graha YT">
+        </div>
+        <span class="app-name">Vihara Santi Graha</span>
+    </a>
+
+    <a href="https://www.instagram.com/viharasantigrahaberau/"target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/logo_vihara/v_santi_graha IG.png" alt="Vihara Santi Graha IG">
+        </div>
+        <span class="app-name">Vihara Santi Graha</span>
+    </a>
+
+    <a href="https://web.facebook.com/viharasanti.grahanew" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/logo_vihara/v santi graha FB.jpg" alt="Vihara Santi Graha FB">
+        </div>
+        <span class="app-name">Vihara Santi Graha</span>
+    </a>
+
+    <a href="https://www.youtube.com/@viharamuladharma" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+        <img src="ico/logo_vihara/v_muladharma_YT.png" alt="Vihara Muladharma">
+    </div>
+    <span class="app-name">Vihara Muladharma</span>
+    </a>
+
+        <a href="https://www.instagram.com/vihara.muladharma/" target="_blank" class="app-link">
+            <div class="app-icon" style="background: none;">
+                <img src="ico/logo_vihara/v_muladharma_IG.png" alt="Vihara Muladharma IG">
+            </div>
+            <span class="app-name">Vihara Muladharma</span>
+        </a>
+
+           <a href="https://www.facebook.com/profile.php?id=61591358272735&rdid=Q06Wo9GFqYZtJhEs&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1BHNrjfDHj%2F#" target="_blank" class="app-link">
+            <div class="app-icon" style="background: none;">
+                <img src="ico/logo_vihara/v_muladharma_FB.jpg" alt="Vihara Muladharma FB">
+            </div>
+            <span class="app-name">Vihara Muladharma</span>
+        </a>
+
+
+    <a href="https://www.youtube.com/@mahaviharabuddhamanggala5122/videos" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/logo_vihara/v_buddha_manggala_bpn_YT.png" alt="Vihara Buddha Manggala YT">
+        </div>
+        <span class="app-name">V_Buddha Manggala</span>
+    </a>       
+    
+    <a href="https://www.instagram.com/buddhamanggala/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/logo_vihara/v_buddha_manggala_bpn_IG.png" alt="vihara buddha manggala IG">
+        </div>
+        <span class="app-name">V_Buddha Manggala</span>
+    </a>
+
+    <a href="https://drive.google.com/drive/folders/1bAcQi4Fj7VWq8QGyG2QfF_GtcFhKTnfM?usp=sharing" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/logo_vihara/v_buddha_manggala_Drive.png" alt="Vihara Buddha Manggala Drive">
+        </div>
+        <span class="app-name">V_Buddha Manggala Drive</span>
+    </a>
+    <a href="https://www.youtube.com/@smbmuaradhammapaser4833" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/logo_vihara/v_muara_dhamma_YT.png" alt="#">
+        </div>
+        <span class="app-name">V_Muara Dhamma</span>
+    </a>
+
+    <a href="https://www.instagram.com/dhamma_vihara/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/logo_vihara/dhamma_vihara_IG.png" alt="dhamma vihara">
+        </div>
+        <span class="app-name">Dhamma Vihara</span>
+    </a>
+
+    <a href="https://fastdl.app/id/photo" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/logo_vihara/card_index.webp" alt="Vihara Muladharma YT">
+        </div>
+        <span class="app-name">Download Gambar IG</span>
+    </a>
+
+    <a href="https://www.instagram.com/taokwan_zhongyigong/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/logo_vihara/Setia_Tao _IG.jpg" alt="Tempat Ibadah Dharma Setia Tao">
+        </div>
+        <span class="app-name">IG Tempat Ibadah Dharma Setia Tao</span>
+    </a>
+
+    <a href="https://www.instagram.com/wandani_berau/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/logo_vihara/wandani_IG.png" alt="Wandani Berau IG">
+        </div>
+        <span class="app-name">Wandani Berau IG</span>
+    </a>
+
+    <a href="https://www.instagram.com/wandani_pd_kaltim/" target="_blank" class="app-link">
+        <div class="app-icon" style="background: none;">
+            <img src="ico/logo_vihara/wandani_IG.png" alt="Wandani Pdkaltim">
+        </div>
+        <span class="app-name">Wandani Pdkaltim</span>
+    </a>
+
+    <a href="https://www.instagram.com/wandani_balikpapan/" target="_blank" class="app-link">
+        <div class="app-icon" style="background-color: none;">
+            <img src="ico/logo_vihara/wandani_IG.png" alt="Wandanin BPN">
+        </div>
+        <span class="app-name">Wandani Balikpapan</span>
+    </a>
+
+     <a href="https://www.instagram.com/p/DYwEpV6mLKM/?igsh=NDF3cXN5dGV1M3Bh" target="_blank" class="app-link">
+        <div class="app-icon" style="background-color: none;">
+            <img src="ico/logo_vihara/IG_BimasBuddha.png" alt="IG Bimas Buddha">
+        </div>
+        <span class="app-name">IG Bimas Buddha</span>
+    </a>
+
+     <a href="https://www.instagram.com/mvsejahteramaitreyasmr/" target="_blank" class="app-link">
+        <div class="app-icon" style="background-color: none;">
+            <img src="ico/logo_vihara/logo siluet-mvmaitreya-samarinda.jpg" alt="IG Bimas Buddha">
+        </div>
+        <span class="app-name">IG Bimas Buddha</span>
+    </a>
+    
+    </div>
+
+<!--Kemenkeu-->
+<!--Buddha_1-->
+<div id="buddha_1" class="menu-container" style="display: none;">
+    <a href="https://samaggi-phala.or.id/" target="_blank" class="app-link">
+        <div class="app-icon" style="background:none">
+            <img src="ico/Bimas_Buddha/Logo-SP.png" alt="Tutorial">
+        </div>
+        <span class="app-name">Samaggi-phala</span>
+    </a>
+
+    <a href="https://drive.google.com/file/d/11JW2BcBV9MImnZsLsVuH-j6TRDZ2jfQL/view?usp=sharing" target="_blank" class="app-link">
+        <div class="app-icon" style="background:none">
+            <img src="ico/Bimas_Buddha/dhammapada.png" alt="Tutorial">
+        </div>
+        <span class="app-name">Dhammapada</span>
+    </a>
+
+    <a href="https://drive.google.com/file/d/181r-DPZ9CHFc3F0drfiy8qnScT7De1H7/view?usp=sharing" target="_blank" class="app-link">
+        <div class="app-icon" style="background:none">
+            <img src="ico/Bimas_Buddha/paritta.png" alt="Tutorial">
+        </div>
+        <span class="app-name">Paritta Suci</span>
+    </a>
+
+    <a href="https://drive.google.com/file/d/1UWFV1EnfFN6iP8CUQfBGevjh82ts5U9l/view?usp=sharing" target="_blank" class="app-link">
+        <div class="app-icon" style="background:none">
+            <img src="ico/Bimas_Buddha/vinaya.png" alt="Tutorial">
+        </div>
+        <span class="app-name">Winaya</span>
+    </a>
+</div>   
+
+
+<!--Buddha_1-->
+<!--Calender-->
+<div id="calender" class="menu-container" style="display: none;">
+    <a href="https://calendar.google.com/calendar/u/0/r?tab=mc&pli=1" target="_blank" class="app-link">
+        <div class="app-icon" style="background:none">
+            <img src="ico/calender/Goggle_Calender.png" alt="Google Calendar">
+        </div>
+        <span class="app-name">Google Calendar</span>
+    </a>
+
+    <a href="https://kalenderku.id/" target="_blank" class="app-link">
+        <div class="app-icon" style="background:none">
+            <img src="ico/calender/calender.png" alt="Kalenderku">
+        </div>
+        <span class="app-name">Calender Indonesia</span>
+    </a>
+
+    <a href="https://www.chinesecalendaronline.com/#google_vignette" target="_blank" class="app-link">
+        <div class="app-icon" style="background:none">
+            <img src="ico/Bimas_Buddha/chinaCal.png" alt="Time and Date">
+        </div>
+        <span class="app-name">Chinese Calendar</span>
+    </a>
+</div>
+
+<!--Calender-->
+
+
+
+<script src="js/sidebar_note.js" defer></script>
+<script src="js/calender.js" defer></script>
+<script src="js/wallpaper.js" defer></script>
+<script src="js/music_nav_left.js" defer></script>
+<script src="js/calculator.js" defer></script>
+<script src="js/biodata.js" defer></script>
+<script src="js/search_google.js" defer></script>
+
+
+<script>
+  
+</script>
+</body>
+</html>
