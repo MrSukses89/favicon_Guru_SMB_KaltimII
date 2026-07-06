@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Tebak Gambar + Suara</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .game-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        /* Desain Dadu */
+        .dice {
+            width: 100px;
+            height: 100px;
+            background-color: #ff4757;
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.3s;
+        }
+
+        .dice:active {
+            transform: scale(0.9);
+        }
+
+        /* Animasi Berputar */
+        .spinning {
+            animation: spin 0.5s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        button {
+            background-color: #2ed573;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 15px;
+        }
+
+        button:disabled {
+            background-color: #ced6e0;
+            cursor: not-allowed;
+        }
+
+        /* Modal / Pop-up Gambar */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 80%;
+            max-height: 80%;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 60vh;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+    <h2>🎲 Roll the Dice!</h2>
+    <p>Klik dadu di bawah untuk mendapatkan angka (1-12).<br>Angka berapapun bisa untuk membuka gambar!</p>
+    
+    <div id="dice" class="dice" onclick="rollDice()">?</div>
+    
+    <div id="status-message">Silahkan putar dadu...</div>
+    
+    <button id="btn-gambar" disabled onclick="bukaGambar()">Buka Gambar</button>
+</div>
+
+<div id="imageModal" class="modal">
+    <div class="modal-content">
+        <h3>Jelaskan Gambar Ini! 🗣️</h3>
+        <img id="game-image" src="" alt="Tebak Gambar">
+        <br>
+        <button onclick="tutupModal()" style="background-color: #ff4757;">Tutup & Main Lagi</button>
+    </div>
+</div>
+
+<script>
+    const diceEl = document.getElementById('dice');
+    const btnGambar = document.getElementById('btn-gambar');
+    const statusMsg = document.getElementById('status-message');
+    const modal = document.getElementById('imageModal');
+    const gameImage = document.getElementById('game-image');
+
+    let isRolling = false;
+
+    const daftarGambar = [
+        "Gambar/1.jpeg", "Gambar/2.jpeg",
+        "Gambar/3.jpeg", "Gambar/4.jpeg",
+        "Gambar/5.jpeg", "Gambar/6.jpeg",
+        "Gambar/7.jpeg", "Gambar/8.jpeg",
+        "Gambar/9.jpeg", "Gambar/10.jpeg",
+        "Gambar/11.jpeg", "Gambar/12.jpeg",
+        "Gambar/13.jpg", "Gambar/14.jpg",
+        "Gambar/15.jpg", "Gambar/16.jpg",
+        "Gambar/17.jpg", "Gambar/18.jpg",
+        "Gambar/19.jpg", "Gambar/20.jpg"
+    ];
+
+    // --- LOGIKA GENERATOR SUARA (Web Audio API) ---
+    let audioCtx = null;
+
+    function playSound(frequency, duration, type = 'sine') {
+        try {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.type = type;
+            oscillator.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+            
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + duration);
+        } catch (e) {
+            console.log("Audio belum diizinkan oleh browser.");
+        }
+    }
+
+    function rollDice() {
+        if (isRolling) return; 
+        
+        isRolling = true;
+        btnGambar.disabled = true;
+        diceEl.classList.add('spinning');
+        statusMsg.innerText = "Mengocok dadu...";
+
+        playSound(300, 0.1, 'triangle');
+
+        let beepInterval = setInterval(() => {
+            if(isRolling) playSound(600, 0.05, 'sine');
+        }, 150);
+
+        setTimeout(() => {
+            clearInterval(beepInterval);
+            diceEl.classList.remove('spinning');
+            
+            const hasilAngka = Math.floor(Math.random() * 12) + 1;
+            diceEl.innerText = hasilAngka;
+
+            statusMsg.innerHTML = `<span style='color: green; font-weight: bold;'>Angka ${hasilAngka} keluar! Silahkan buka gambar.</span>`;
+            btnGambar.disabled = false; 
+            
+            playSound(523.25, 0.15, 'sine'); 
+            setTimeout(() => playSound(659.25, 0.2, 'sine'), 100); 
+            
+        }, 1000);
+    }
+
+    function bukaGambar() {
+        playSound(880, 0.2, 'sine'); 
+
+        const indeksAcak = Math.floor(Math.random() * daftarGambar.length);
+        
+        // PENTING: encodeURI dipakai agar spasi pada nama folder aman dibaca browser
+        const jalurGambar = encodeURI(daftarGambar[indeksAcak]);
+        
+        gameImage.src = jalurGambar;
+        modal.style.display = "flex";
+    }
+
+    function tutupModal() {
+        playSound(400, 0.08, 'triangle');
+        
+        modal.style.display = "none";
+        diceEl.innerText = "?";
+        statusMsg.innerText = "Silahkan putar dadu...";
+        btnGambar.disabled = true;
+        isRolling = false;
+    }
+</script>
+
+</body>
+</html>
