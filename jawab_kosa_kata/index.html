@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Dadu Kosakata Inggris - Step by Step</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e24;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #2a2a35;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+        }
+        h1 { color: #4caf50; margin-top: 0; }
+        .dice-box {
+            font-size: 48px;
+            font-weight: bold;
+            background-color: #3e3e4f;
+            width: 100px;
+            height: 100px;
+            line-height: 100px;
+            margin: 20px auto;
+            border-radius: 10px;
+            border: 3px solid #4caf50;
+        }
+        button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin: 5px;
+        }
+        button:hover { background-color: #45a049; }
+        button:disabled { background-color: #555; cursor: not-allowed; }
+        
+        /* Tombol menu buka pertanyaan */
+        .open-btn {
+            background-color: #ff9800;
+        }
+        .open-btn:hover { background-color: #e68a00; }
+
+        .menu-section {
+            margin-top: 15px;
+            display: none;
+        }
+        .quiz-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #3e3e4f;
+            display: none;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 80%;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 2px solid #555;
+            background-color: #1e1e24;
+            color: white;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        input[type="text"]:focus { border-color: #4caf50; outline: none; }
+        .feedback {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .correct { color: #4caf50; }
+        .wrong { color: #f44336; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Dice Vocabulary Game</h1>
+    <p>Putar dadu (1-12) lalu buka pertanyaannya!</p>
+    
+    <div class="dice-box" id="dice">?</div>
+    <button id="rollBtn" onclick="rollDice()">Putar Dadu</button>
+
+    <!-- STEP 1: Menu Tombol Buka Pertanyaan setelah dadu berhenti -->
+    <div class="menu-section" id="menuSection">
+        <h3 id="dicePrompt">Kamu mendarat di nomor X!</h3>
+        <button class="open-btn" id="openQuizBtn" onclick="openQuiz()">🔓 Buka Pertanyaan</button>
+    </div>
+
+    <!-- STEP 2: Section Kuis yang muncul setelah tombol di atas diklik -->
+    <div class="quiz-section" id="quizSection">
+        <p>Apa bahasa Inggris dari kosa kata ini:</p>
+        <h2 id="wordToTranslate" style="color: #ffeb3b;">Kucing</h2>
+        
+        <input type="text" id="answerInput" placeholder="Ketik jawaban di sini..." onkeydown="checkEnter(event)">
+        <br>
+        <button onclick="checkAnswer()">Kirim Jawaban</button>
+        <div class="feedback" id="feedback"></div>
+    </div>
+</div>
+
+<script>
+    // Audio Context bawaan browser
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playSound(type) {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        const now = audioCtx.currentTime;
+
+        if (type === 'click') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(600, now);
+            gainNode.gain.setValueAtTime(0.1, now);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+            osc.start(now); osc.stop(now + 0.05);
+        } 
+        else if (type === 'roll') {
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(Math.random() * 300 + 100, now);
+            gainNode.gain.setValueAtTime(0.15, now);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+            osc.start(now); osc.stop(now + 0.05);
+        } 
+        else if (type === 'correct') {
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(523.25, now);
+            osc.frequency.setValueAtTime(659.25, now + 0.1);
+            osc.frequency.setValueAtTime(783.99, now + 0.2);
+            gainNode.gain.setValueAtTime(0.2, now);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+            osc.start(now); osc.stop(now + 0.4);
+        } 
+        else if (type === 'wrong') {
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(150, now);
+            osc.frequency.linearRampToValueAtTime(70, now + 0.3);
+            gainNode.gain.setValueAtTime(0.2, now);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+            osc.start(now); osc.stop(now + 0.3);
+        }
+    }
+
+    // Database 100 Kosakata
+    const vocabularyList = [
+        { id: "rumah", en: "house" }, { id: "buku", en: "book" }, { id: "meja", en: "table" },
+        { id: "kursi", en: "chair" }, { id: "kucing", en: "cat" }, { id: "anjing", en: "dog" },
+        { id: "pintu", en: "door" }, { id: "jendela", en: "window" }, { id: "mobil", en: "car" },
+        { id: "sepeda", en: "bicycle" }, { id: "pohon", en: "tree" }, { id: "bunga", en: "flower" },
+        { id: "matahari", en: "sun" }, { id: "bulan", en: "moon" }, { id: "bintang", en: "star" },
+        { id: "air", en: "water" }, { id: "api", en: "fire" }, { id: "bumi", en: "earth" },
+        { id: "anak", en: "child" }, { id: "ibu", en: "mother" }, { id: "ayah", en: "father" },
+        { id: "kakak/adik laki-laki", en: "brother" }, { id: "kakak/adik perempuan", en: "sister" },
+        { id: "sekolah", en: "school" }, { id: "guru", en: "teacher" }, { id: "murid", en: "student" },
+        { id: "tangan", en: "hand" }, { id: "kaki", en: "foot" }, { id: "kepala", en: "head" },
+        { id: "mata", en: "eye" }, { id: "telinga", en: "ear" }, { id: "hidung", en: "nose" },
+        { id: "mulut", en: "mouth" }, { id: "rambut", en: "hair" }, { id: "baju", en: "clothes" },
+        { id: "sepatu", en: "shoe" }, { id: "makanan", en: "food" }, { id: "minuman", en: "drink" },
+        { id: "sendok", en: "spoon" }, { id: "garpu", en: "fork" }, { id: "piring", en: "plate" },
+        { id: "pagi", en: "morning" }, { id: "siang", en: "afternoon" }, { id: "malam", en: "night" },
+        { id: "hari", en: "day" }, { id: "jam", en: "clock" }, { id: "uang", en: "money" },
+        { id: "jalan", en: "street" }, { id: "kota", en: "city" }, { id: "negara", en: "country" },
+        { id: "burung", en: "bird" }, { id: "ikan", en: "fish" }, { id: "ular", en: "snake" },
+        { id: "gajah", en: "elephant" }, { id: "singa", en: "lion" }, { id: "monyet", en: "monkey" },
+        { id: "apel", en: "apple" }, { id: "pisang", en: "banana" }, { id: "jeruk", en: "orange" },
+        { id: "nasi", en: "rice" }, { id: "roti", en: "bread" }, { id: "susu", en: "milk" },
+        { id: "daging", en: "meat" }, { id: "sayur", en: "vegetable" }, { id: "buah", en: "fruit" },
+        { id: "merah", en: "red" }, { id: "biru", en: "blue" }, { id: "hijau", en: "green" },
+        { id: "kuning", en: "yellow" }, { id: "hitam", en: "black" }, { id: "putih", en: "white" },
+        { id: "besar", en: "big" }, { id: "kecil", en: "small" }, { id: "tinggi", en: "tall" },
+        { id: "pendek", en: "short" }, { id: "panjang", en: "long" }, { id: "baru", en: "new" },
+        { id: "lama/tua", en: "old" }, { id: "senang", en: "happy" }, { id: "sedih", en: "sad" },
+        { id: "marah", en: "angry" }, { id: "takut", en: "afraid" }, { id: "cepat", en: "fast" },
+        { id: "lambat", en: "slow" }, { id: "panas", en: "hot" }, { id: "dingin", en: "cold" },
+        { id: "bersih", en: "clean" }, { id: "kotor", en: "dirty" }, { id: "mudah", en: "easy" },
+        { id: "sulit", en: "difficult" }, { id: "kaya", en: "rich" }, { id: "miskin", en: "poor" },
+        { id: "tidur", en: "sleep" }, { id: "makan", en: "eat" }, { id: "minum", en: "drink" },
+        { id: "berjalan", en: "walk" }, { id: "berlari", en: "run" }, { id: "membaca", en: "read" },
+        { id: "menulis", en: "write" }, { id: "berbicara", en: "speak" }
+    ];
+
+    let currentWord = {};
+
+    function rollDice() {
+        playSound('click');
+
+        const diceElement = document.getElementById("dice");
+        const rollBtn = document.getElementById("rollBtn");
+        const menuSection = document.getElementById("menuSection");
+        const quizSection = document.getElementById("quizSection");
+        const feedback = document.getElementById("feedback");
+        const answerInput = document.getElementById("answerInput");
+
+        // Reset semua section biar hilang dulu pas di-roll ulang
+        menuSection.style.display = "none";
+        quizSection.style.display = "none";
+        feedback.innerText = "";
+        answerInput.value = "";
+        rollBtn.disabled = true;
+
+        let counter = 0;
+        let animInterval = setInterval(() => {
+            diceElement.innerText = Math.floor(Math.random() * 12) + 1;
+            playSound('roll');
+            
+            counter++;
+            if(counter > 12) {
+                clearInterval(animInterval);
+                
+                const diceResult = Math.floor(Math.random() * 12) + 1;
+                diceElement.innerText = diceResult;
+
+                // Memunculkan menu "Buka Pertanyaan" terlebih dahulu
+                showMenuButton(diceResult);
+            }
+        }, 60);
+    }
+
+    function showMenuButton(diceNumber) {
+        document.getElementById("dicePrompt").innerText = `Kamu mendarat di nomor ${diceNumber}!`;
+        document.getElementById("menuSection").style.display = "block";
+    }
+
+    function openQuiz() {
+        playSound('click'); // Suara pas klik buka pertanyaan
+
+        // Ambil kosakata acak
+        const randomIndex = Math.floor(Math.random() * vocabularyList.length);
+        currentWord = vocabularyList[randomIndex];
+
+        document.getElementById("wordToTranslate").innerText = currentWord.id;
+        
+        // Sembunyikan tombol buka, lalu tampilkan kuisnya
+        document.getElementById("menuSection").style.display = "none";
+        document.getElementById("quizSection").style.display = "block";
+        document.getElementById("answerInput").focus();
+    }
+
+    function checkAnswer() {
+        playSound('click');
+
+        const userAnswer = document.getElementById("answerInput").value.trim().toLowerCase();
+        const feedback = document.getElementById("feedback");
+        const rollBtn = document.getElementById("rollBtn");
+
+        if (userAnswer === currentWord.en.toLowerCase()) {
+            feedback.innerHTML = "<span class='correct'>Jawaban Benar! 🎉</span>";
+            playSound('correct');
+            rollBtn.disabled = false; // Aktifkan lagi tombol roll dadu
+        } else {
+            feedback.innerHTML = "<span class='wrong'>Jawaban Salah! Coba lagi ❌</span>";
+            playSound('wrong');
+        }
+    }
+
+    function checkEnter(event) {
+        if (event.key === "Enter") {
+            checkAnswer();
+        }
+    }
+</script>
+
+</body>
+</html>
