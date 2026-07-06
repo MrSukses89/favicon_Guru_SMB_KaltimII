@@ -1,0 +1,168 @@
+/* --- RESET STYLE --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #0f172a; /* Slate 900 */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Transisi global untuk animasi halus */
+.smooth-transition {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- 1. SIDE DOCK (KIRI) --- */
+.side-dock {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(12px);
+    padding: 12px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    z-index: 100;
+}
+
+.btn-side {
+    width: 48px;
+    height: 48px;
+    background-color: #4f46e5; /* Indigo 600 */
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-side:active {
+    transform: scale(0.92);
+}
+
+/* State warna merah saat aktif membuka */
+.btn-side.active-close {
+    background-color: #ef4444 !important; /* Red 500 */
+}
+
+/* --- 2. BOTTOM DOCK (BAWAH) --- */
+.bottom-dock {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    /* Posisi awal disembunyikan ke bawah layar dan transparan */
+    transform: translateX(-50%) translateY(150px);
+    opacity: 0;
+    pointer-events: none;
+    
+    background: rgba(30, 41, 59, 0.85);
+    backdrop-filter: blur(12px);
+    padding: 16px 24px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    display: flex;
+    gap: 16px;
+    z-index: 90;
+}
+
+/* Class pembuka dari Javascript */
+.bottom-dock.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.btn-dock {
+    width: 56px;
+    height: 56px;
+    border: none;
+    border-radius: 16px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-dock:active {
+    transform: scale(0.92);
+}
+
+.btn-trigger {
+    background-color: #10b981; /* Emerald 500 */
+    color: #ffffff;
+}
+
+.btn-normal {
+    background-color: #334155;
+    color: #cbd5e1;
+}
+
+.btn-normal:hover {
+    background-color: #475569;
+}
+
+/* --- 3. CENTER CONTAINER (TENGAH) --- */
+.center-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* Posisi awal mengecil (scale 0) */
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    z-index: 80;
+}
+
+/* Class pembuka dari Javascript */
+.center-container.show {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.icon-circle {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, #7d2ae8, #00c4cc); /* Warna gradasi Canva */
+    border-radius: 50%;
+    display: flex;             /* Mengatur posisi konten di tengah */
+    align-items: center;       /* Tengah vertikal */
+    justify-content: center;    /* Tengah horizontal */
+    box-shadow: 0 0 40px rgba(125, 42, 232, 0.6);
+    animation: floatAnimation 2s ease-in-out infinite;
+}
+
+.center-text {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 20px;
+    background: rgba(30, 41, 59, 0.6);
+    padding: 8px 20px;
+    border-radius: 9999px;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Animasi mengapung mandiri tanpa mengganggu scaling container */
+@keyframes floatAnimation {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
